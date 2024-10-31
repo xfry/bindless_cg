@@ -1,23 +1,35 @@
 cmake_minimum_required(VERSION 3.16)
 
-# Set the project name and version
-project(Bindless-CG VERSION 1.0 LANGUAGES CXX)
+# Project name and version
+project(Bindless-CG VERSION 1.0 LANGUAGES C CXX)  # Enable both C and CXX languages
 
-# Specify the C++ standard
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+# Set C and C++ compilers
+set(CMAKE_C_COMPILER gcc)
+set(CMAKE_CXX_COMPILER g++)
 
-# Add the source and header directories
-include_directories(${PROJECT_SOURCE_DIR}/header)
-add_subdirectory(src)
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Include directories
+include_directories(${PROJECT_SOURCE_DIR}/dependencies)
+include_directories(${PROJECT_SOURCE_DIR}/dependencies/glad)
+include_directories(${PROJECT_SOURCE_DIR}/src)
+
+# Find packages
 find_package(OpenGL REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(Boost REQUIRED COMPONENTS 
+                            system 
+                            filesystem)
 find_package(GLUT REQUIRED)
-find_package(glfw3 3.3 REQUIRED)
 
-# Add the executable
-add_executable(Bindless-CG main.cpp)
+# Add executable
+add_executable( Bindless-CG 
+                src/main.cpp
+                dependencies/glad/glad.h
+                src/glad.c
+                )
 
-# Add any additional directories or libraries here
-target_include_directories(Bindless-CG PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(Bindless-CG PRIVATE OpenGL::GL GLUT::GLUT)
+# Link libraries
+target_link_libraries(Bindless-CG OpenGL::GL glfw Boost::system Boost::filesystem GLUT::GLUT)
