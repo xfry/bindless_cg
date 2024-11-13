@@ -10,6 +10,9 @@ include_directories(include)
 # Archivos fuente
 file(GLOB SOURCES "src/*.cpp")
 
+# Añadir tiny_obj_loader.cc a los archivos fuente
+list(APPEND SOURCES "src/tiny_obj_loader.cc")
+
 # Crear el ejecutable
 add_executable(bindless_cg ${SOURCES})
 
