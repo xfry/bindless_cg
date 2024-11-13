@@ -1,0 +1,11 @@
+bindless_cg/
+├── assets/                  # Carpeta de recursos
+│   └── models/              # Contiene los modelos 3D en formato OBJ
+│       └── your_model.obj   # Modelo de prueba
+├── include/                 # Archivos de encabezados
+│   └── obj_loader.h         # Encabezado para el lector de OBJ
+├── src/                     # Código fuente
+│   ├── app.cpp              # Archivo principal de la aplicación
+│   └── obj_loader.cpp       # Implementación del lector de OBJ
+├── CMakeLists.txt           # Configuración de CMake
+└── build/                   # Carpeta generada después de compilar
