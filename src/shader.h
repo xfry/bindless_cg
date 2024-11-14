@@ -14,8 +14,7 @@ public:
 private:
     unsigned int Id;
     std::string loadShader( const char* path );
-    void checkCompileErrors( GLint shader, std::string type );
-
+    void checkCompileErrors(GLuint shader, std::string type);
 };
 
 #endif
