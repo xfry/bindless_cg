@@ -32,3 +32,24 @@ void Viewport::init()
     model           = std::make_unique<Model>("../models/my_model.obj");
 
 }
+
+void Viewport::render()
+{
+    // Primero limpiamos el buffer
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    shader_program->use();
+
+    // Definimos la matriz de modelos
+    glm::mat4 model_matx  = glm::mat4(1.0f);
+    // Que la matrix de vista inicie mirando hacia el eje z positivo y que la camara este en el origen
+    glm::mat4 view_mtx    = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    // Agregamos la matrix de projección con perspectiva
+    glm::mat4 project_mtx = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
+
+    // pasamos las matrices al shader
+    shader_program->setMat4("model", model_matx);
+    shader_program->setMat4("view", view_mtx);
+    shader_program->setMat4("projection", project_mtx);
+
+    model->draw();
+}
