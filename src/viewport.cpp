@@ -53,3 +53,18 @@ void Viewport::render()
 
     model->draw();
 }
+
+void Viewport::run()
+{
+    while ( !glfwWindowShouldClose(window) ) {
+        // Renderizamos la escena 
+        render();
+        // limpiamos los buffers de la ventana
+        glfwSwapBuffers(window);
+        // Escuche el polling de eventos
+        glfwPollEvents();
+    }
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
+}
