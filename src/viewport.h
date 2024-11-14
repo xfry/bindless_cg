@@ -10,9 +10,9 @@
 #include "shader.h"
 #include <memory>
 
-class viewport {
+class Viewport {
 public:
-    void videoviewport(int width, int height, char* title);
+    Viewport(int width, int height, char* title);
     void init();
     void run();
 
