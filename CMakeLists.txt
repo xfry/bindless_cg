@@ -23,13 +23,26 @@ find_package(Boost REQUIRED COMPONENTS
                             system 
                             filesystem)
 find_package(GLUT REQUIRED)
+find_package(GLEW REQUIRED)
+
+# Use pkg-config to find Assimp
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(ASSIMP REQUIRED assimp)
+include_directories(${ASSIMP_INCLUDE_DIRS})
+link_directories(${ASSIMP_LIBRARY_DIRS})
 
 # Add executable
 add_executable( Bindless-CG 
                 src/main.cpp
+                src/model.h
+                src/model.cpp
+                src/shader.h
+                src/shader.cpp
+                src/viewport.h
+                src/viewport.cpp
                 dependencies/glad/glad.h
                 src/glad.c
                 )
 
 # Link libraries
-target_link_libraries(Bindless-CG OpenGL::GL glfw Boost::system Boost::filesystem GLUT::GLUT)
+target_link_libraries(Bindless-CG OpenGL::GL glfw Boost::system Boost::filesystem GLUT::GLUT ${ASSIMP_LIBRARIES} GLEW::GLEW)
