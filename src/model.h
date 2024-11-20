@@ -15,6 +15,8 @@ public:
 private:
     void LoadModel( const std::string& path );
     unsigned int num_vertices;
+    void ProcessNode(aiNode* node, const aiScene* scene);
+    void ProcessMesh(aiMesh* mesh);
     // Declaramos las variables del Vertex Buffer Object y Vertex Array Object
     GLuint vao, vbo;
 };

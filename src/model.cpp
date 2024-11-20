@@ -10,12 +10,28 @@ void Model::LoadModel(const std::string& Path)
     if ( !scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode ) {
         std::cerr << "ERROR::ASSIMP:: " << m_importer.GetErrorString() << std::endl;
         return;
-    } 
+    }
+
+    ProcessNode(scene->mRootNode, scene);
+}
+
+void Model::ProcessNode(aiNode* node, const aiScene* scene)
+{
+    for (unsigned int i = 0; i < node->mNumMeshes; i++) {
+        // usamos aiMesh de Assimp para recorrer los meshes de la escena
+        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+        ProcessMesh(mesh);
+    }
+    for (unsigned int i = 0; i < node->mNumChildren; i++) {
+        ProcessNode(node->mChildren[i], scene);
+    }
+}
+
+void Model::ProcessMesh(aiMesh* mesh)
+{
     // Creamos vector de vertices
     std::vector<float> model_vertices;
-    // usamos aiMesh de Assimp para recorrer los meshes de la escena
-    aiMesh* mesh = scene->mMeshes[0];
-    for ( unsigned int i = 0; i < mesh->mNumVertices; i++ ) {
+    for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
         model_vertices.push_back(mesh->mVertices[i].x);
         model_vertices.push_back(mesh->mVertices[i].y);
         model_vertices.push_back(mesh->mVertices[i].z);
