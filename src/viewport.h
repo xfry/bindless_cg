@@ -6,19 +6,19 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <memory>
 #include "model.h"
 #include "shader.h"
-#include <memory>
 
 class Viewport {
 public:
     Viewport(int width, int height, char* title);
-    void init();
-    void run();
+    void Init();
+    void Run();
 
 private:
-    void render();
-    void setupCallbacks();
+    void Render();
+    void SetupCallbacks();
 
     int width;
     int height;

@@ -1,10 +1,10 @@
+#include "viewport.h"
 #include <iostream>
-#include <viewport.h>
 
 Viewport::Viewport(int width, int height, char* title):
     width(width), height(height), title(title) { }
 
-void Viewport::init()
+void Viewport::Init()
 {
     if ( !glfwInit() ) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -33,7 +33,7 @@ void Viewport::init()
 
 }
 
-void Viewport::render()
+void Viewport::Render()
 {
     // Primero limpiamos el buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -51,14 +51,14 @@ void Viewport::render()
     shader_program->setMat4("view", view_mtx);
     shader_program->setMat4("projection", project_mtx);
 
-    model->draw();
+    model->Draw();
 }
 
-void Viewport::run()
+void Viewport::Run()
 {
     while ( !glfwWindowShouldClose(window) ) {
         // Renderizamos la escena 
-        render();
+        Render();
         // limpiamos los buffers de la ventana
         glfwSwapBuffers(window);
         // Escuche el polling de eventos
