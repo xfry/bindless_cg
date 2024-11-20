@@ -32,7 +32,7 @@ include_directories(${ASSIMP_INCLUDE_DIRS})
 link_directories(${ASSIMP_LIBRARY_DIRS})
 
 # Add executable
-add_executable( Bindless-CG 
+add_executable( Bindless-CG
                 src/main.cpp
                 src/model.h
                 src/model.cpp
@@ -42,6 +42,7 @@ add_executable( Bindless-CG
                 src/viewport.cpp
                 dependencies/glad/glad.h
                 src/glad.c
+                src/stb_image.h
                 )
 
 # Link libraries

@@ -1,6 +1,9 @@
 #include "model.h"
 #include <iostream>
+#include "shader.h"
 #include <assimp/Importer.hpp>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 void Model::LoadModel(const std::string& Path)
 {
@@ -72,4 +75,49 @@ void Model::Draw()
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, num_vertices);
     //glBindVertexArray(0);
+}
+
+// Implementa el método MakeBindless
+void Model::MakeBindless()
+{
+    // Genera la textura y la envía a la GPU
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // Configura los parámetros de la textura
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Carga las texturas con stb_image y las envía a la GPU
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load("../textures/texture.jpg", &width, &height, &nrChannels, 0);
+    if (data) {
+        GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+    } else {
+        std::cerr << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
+
+    // Crea un manejador para las bindless textures
+    textureHandle = glGetTextureHandleARB(texture);
+    glMakeTextureHandleResidentARB(textureHandle);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Model::DrawBindless()
+{
+    // Usa el Bindless texture en el shader
+    GLint textureLocation = glGetUniformLocation(shader_program->Id, "bindlessTexture");
+    glUniformHandleui64ARB(textureLocation, textureHandle);
+
+    glBindVertexArray(vao);
+    glDrawArrays(GL_TRIANGLES, 0, num_vertices);
+}
+
+void Model::SetShader(Shader* shader) {
+    shader_program = shader;
 }
