@@ -12,7 +12,7 @@
 
 class Viewport {
 public:
-    Viewport(int width, int height, char* title);
+    Viewport(int width, int height, char* title, const char* modelPath);
     void Init();
     void Run();
 
@@ -25,9 +25,10 @@ private:
     // Punteros Raw de la ventana que se construirá
     char* title;
     GLFWwindow* window;
+    const char* modelPath;
     // Declaramos los vbos y vao que usaremos para el renderizado de los modelos Bindless
     GLuint vao, vbo;
-    // Declaramoso smart pointers para los modelos y shaders
+    // Declaramos smart pointers para los modelos y shaders
     std::unique_ptr<Model> model;
     std::unique_ptr<Shader> shader_program;
 };

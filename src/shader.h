@@ -11,6 +11,8 @@ public:
     Shader( const char* vertexPath, const char* fragmentPath );
     void use();
     void setMat4( const std::string& name, const glm::mat4& value );
+    void setVec3(const std::string& name, const glm::vec3& value);
+
 private:
     unsigned int Id;
     std::string loadShader( const char* path );

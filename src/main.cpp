@@ -1,37 +1,21 @@
 #include <iostream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "viewport.h"
 
-int main(int argc, char** argv) {
-    std::cout << "Hello, World!" << std::endl;
-    if (!glfwInit()) {
-        std::cerr << "Failed to initialize GLFW" << std::endl;
-        return -1;
+int main(int argc, char* argv[])
+{
+    if (argc < 2) {
+        std::cerr << "Usage: " << argv[0] << " <path_to_obj_file>" << std::endl;
+        return EXIT_FAILURE;
     }
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "GLFW Window", nullptr, nullptr);
-    if (!window) {
-        std::cerr << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-
-    glfwMakeContextCurrent(window);
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cerr << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
-
-    while (!glfwWindowShouldClose(window)) {
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
-
-    return (0);
+    // Inicializamos el Viewport con el archivo OBJ proporcionado
+    char* winTitle = "OpenGL Viewport";
+    // Instanciamos el Viewport
+    Viewport viewport(800, 600, winTitle, argv[1]);
+    // Inicializamos el Viewport
+    viewport.Init();
+    // Corremos el Viewport
+    viewport.Run();
+    
+    return 0;
 }
