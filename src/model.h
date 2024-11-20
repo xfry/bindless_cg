@@ -10,12 +10,13 @@
 class Model {
 public:
     Model( const std::string& path );
-    void draw();
+    void Draw();
 
 private:
     void LoadModel( const std::string& path );
     unsigned int num_vertices;
-    GLint vao, vbo;
+    // Declaramos las variables del Vertex Buffer Object y Vertex Array Object
+    GLuint vao, vbo;
 };
 
 #endif
