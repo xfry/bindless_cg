@@ -12,9 +12,9 @@ public:
     void use();
     void setMat4( const std::string& name, const glm::mat4& value );
     void setVec3(const std::string& name, const glm::vec3& value);
+    unsigned int Id;
 
 private:
-    unsigned int Id;
     std::string loadShader( const char* path );
     void checkCompileErrors(GLuint shader, std::string type);
 };
